@@ -83,7 +83,14 @@ bool AppDelegate::applicationDidFinishLaunching()
     director->setStatsDisplay(true);
 
 #ifdef AX_PLATFORM_PC
+#ifdef AX_USE_SDL
+    SDL_DisplayMode displayMode;
+    if (SDL_GetDesktopDisplayMode(0, &displayMode) > 0) {
+        director->setAnimationInterval(1.0f / displayMode.refresh_rate);
+    }    
+#else
     director->setAnimationInterval(1.0f / glfwGetVideoMode(glfwGetPrimaryMonitor())->refreshRate);
+#endif
 #else
     director->setAnimationInterval(1.0f / 60);
 #endif

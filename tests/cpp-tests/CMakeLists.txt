@@ -140,7 +140,6 @@ list(APPEND GAME_HEADER
      Source/VibrateTest/VibrateTest.h
      Source/ClippingNodeTest/ClippingNodeTest.h
      Source/UserDefaultTest/UserDefaultTest.h
-     Source/ImGuiTest/ImGuiTest.h
      Source/tests.h
      Source/DataVisitorTest/DataVisitorTest.h
      Source/NewAudioEngineTest/NewAudioEngineTest.h
@@ -360,7 +359,6 @@ list(APPEND GAME_SOURCE
 #     Source/UnitTest/RefPtrTest.cpp
      Source/UnitTest/UnitTest.cpp
      Source/UserDefaultTest/UserDefaultTest.cpp
-     Source/ImGuiTest/ImGuiTest.cpp
      Source/VisibleRect.cpp
      Source/VibrateTest/VibrateTest.cpp
      Source/ZwoptexTest/ZwoptexTest.cpp
@@ -369,6 +367,16 @@ list(APPEND GAME_SOURCE
      Source/ZipTest/ZipTests.cpp
      )
 
+if(NOT AX_USE_SDL)
+    list(APPEND GAME_HEADER
+        Source/ImGuiTest/ImGuiTest.h
+    )
+    list(APPEND GAME_SOURCE
+        Source/ImGuiTest/ImGuiTest.cpp
+    )
+endif()
+
+     
 if(ANDROID OR MACOSX OR IOS OR (WINDOWS AND AX_ENABLE_MFMEDIA) OR AX_ENABLE_VLC_MEDIA)
     list(APPEND GAME_HEADER
              Source/UITest/CocoStudioGUITest/UIVideoPlayerTest/UIVideoPlayerTest.h)
@@ -396,83 +404,87 @@ if(WINDOWS OR MACOSX OR LINUX)
          )
 endif()
 
-list(APPEND GAME_HEADER
-   Source/Box2DTest/Box2dTest.h
-   )
-
-list(APPEND GAME_SOURCE
-   Source/Box2DTest/Box2dTest.cpp
-)
-
-if((WINDOWS OR MACOSX OR LINUX OR WASM) AND (NOT WINRT))
+if(AX_USE_SDL)
+    set(BOX2D_TESTBED_DISABLED ON)
+else()
     list(APPEND GAME_HEADER
-        Source/Box2DTestBed/tests/test.h
-        Source/Box2DTestBed/tests/settings.h
-        Source/Box2DTestBed/Box2DTestBed.h
-     )
+        Source/Box2DTest/Box2dTest.h
+    )
 
-   list(APPEND GAME_SOURCE
-    Source/Box2DTestBed/Box2DTestBed.cpp
-    Source/Box2DTestBed/test.cpp
-    Source/Box2DTestBed/tests/add_pair.cpp
-    Source/Box2DTestBed/tests/apply_force.cpp
-    Source/Box2DTestBed/tests/body_types.cpp
-    Source/Box2DTestBed/tests/box_stack.cpp
-    Source/Box2DTestBed/tests/breakable.cpp
-    Source/Box2DTestBed/tests/bridge.cpp
-    Source/Box2DTestBed/tests/bullet_test.cpp
-    Source/Box2DTestBed/tests/cantilever.cpp
-    Source/Box2DTestBed/tests/car.cpp
-    Source/Box2DTestBed/tests/chain.cpp
-    Source/Box2DTestBed/tests/chain_problem.cpp
-    Source/Box2DTestBed/tests/character_collision.cpp
-    Source/Box2DTestBed/tests/circle_stack.cpp
-    Source/Box2DTestBed/tests/collision_filtering.cpp
-    Source/Box2DTestBed/tests/collision_processing.cpp
-    Source/Box2DTestBed/tests/compound_shapes.cpp
-    Source/Box2DTestBed/tests/confined.cpp
-    Source/Box2DTestBed/tests/continuous_test.cpp
-    Source/Box2DTestBed/tests/convex_hull.cpp
-    Source/Box2DTestBed/tests/conveyor_belt.cpp
-    Source/Box2DTestBed/tests/distance_joint.cpp
-    Source/Box2DTestBed/tests/distance_test.cpp
-    Source/Box2DTestBed/tests/dominos.cpp
-    Source/Box2DTestBed/tests/dump_loader.cpp
-    Source/Box2DTestBed/tests/dynamic_tree.cpp
-    Source/Box2DTestBed/tests/edge_shapes.cpp
-    Source/Box2DTestBed/tests/edge_test.cpp
-    Source/Box2DTestBed/tests/friction.cpp
-    Source/Box2DTestBed/tests/gear_joint.cpp
-    Source/Box2DTestBed/tests/heavy1.cpp
-    Source/Box2DTestBed/tests/heavy2.cpp
-    Source/Box2DTestBed/tests/mobile_balanced.cpp
-    Source/Box2DTestBed/tests/mobile_unbalanced.cpp
-    Source/Box2DTestBed/tests/motor_joint.cpp
-    Source/Box2DTestBed/tests/pinball.cpp
-    Source/Box2DTestBed/tests/platformer.cpp
-    Source/Box2DTestBed/tests/polygon_collision.cpp
-    Source/Box2DTestBed/tests/polygon_shapes.cpp
-    Source/Box2DTestBed/tests/prismatic_joint.cpp
-    Source/Box2DTestBed/tests/pulley_joint.cpp
-    Source/Box2DTestBed/tests/pyramid.cpp
-    Source/Box2DTestBed/tests/ray_cast.cpp
-    Source/Box2DTestBed/tests/restitution.cpp
-    Source/Box2DTestBed/tests/revolute_joint.cpp
-    Source/Box2DTestBed/tests/rope.cpp
-    Source/Box2DTestBed/tests/sensor.cpp
-    Source/Box2DTestBed/tests/shape_cast.cpp
-    Source/Box2DTestBed/tests/shape_editing.cpp
-    Source/Box2DTestBed/tests/skier.cpp
-    Source/Box2DTestBed/tests/slider_crank_1.cpp
-    Source/Box2DTestBed/tests/slider_crank_2.cpp
-    Source/Box2DTestBed/tests/theo_jansen.cpp
-    Source/Box2DTestBed/tests/tiles.cpp
-    Source/Box2DTestBed/tests/time_of_impact.cpp
-    Source/Box2DTestBed/tests/tumbler.cpp
-    Source/Box2DTestBed/tests/web.cpp
-    Source/Box2DTestBed/tests/wheel_joint.cpp
-    Source/Box2DTestBed/tests/wrecking_ball.cpp
-     )
+    list(APPEND GAME_SOURCE
+        Source/Box2DTest/Box2dTest.cpp
+    )
+
+    if((WINDOWS OR MACOSX OR LINUX OR WASM) AND (NOT WINRT))
+        list(APPEND GAME_HEADER
+            Source/Box2DTestBed/tests/test.h
+            Source/Box2DTestBed/tests/settings.h
+            Source/Box2DTestBed/Box2DTestBed.h
+        )
+
+        list(APPEND GAME_SOURCE
+            Source/Box2DTestBed/Box2DTestBed.cpp
+            Source/Box2DTestBed/test.cpp
+            Source/Box2DTestBed/tests/add_pair.cpp
+            Source/Box2DTestBed/tests/apply_force.cpp
+            Source/Box2DTestBed/tests/body_types.cpp
+            Source/Box2DTestBed/tests/box_stack.cpp
+            Source/Box2DTestBed/tests/breakable.cpp
+            Source/Box2DTestBed/tests/bridge.cpp
+            Source/Box2DTestBed/tests/bullet_test.cpp
+            Source/Box2DTestBed/tests/cantilever.cpp
+            Source/Box2DTestBed/tests/car.cpp
+            Source/Box2DTestBed/tests/chain.cpp
+            Source/Box2DTestBed/tests/chain_problem.cpp
+            Source/Box2DTestBed/tests/character_collision.cpp
+            Source/Box2DTestBed/tests/circle_stack.cpp
+            Source/Box2DTestBed/tests/collision_filtering.cpp
+            Source/Box2DTestBed/tests/collision_processing.cpp
+            Source/Box2DTestBed/tests/compound_shapes.cpp
+            Source/Box2DTestBed/tests/confined.cpp
+            Source/Box2DTestBed/tests/continuous_test.cpp
+            Source/Box2DTestBed/tests/convex_hull.cpp
+            Source/Box2DTestBed/tests/conveyor_belt.cpp
+            Source/Box2DTestBed/tests/distance_joint.cpp
+            Source/Box2DTestBed/tests/distance_test.cpp
+            Source/Box2DTestBed/tests/dominos.cpp
+            Source/Box2DTestBed/tests/dump_loader.cpp
+            Source/Box2DTestBed/tests/dynamic_tree.cpp
+            Source/Box2DTestBed/tests/edge_shapes.cpp
+            Source/Box2DTestBed/tests/edge_test.cpp
+            Source/Box2DTestBed/tests/friction.cpp
+            Source/Box2DTestBed/tests/gear_joint.cpp
+            Source/Box2DTestBed/tests/heavy1.cpp
+            Source/Box2DTestBed/tests/heavy2.cpp
+            Source/Box2DTestBed/tests/mobile_balanced.cpp
+            Source/Box2DTestBed/tests/mobile_unbalanced.cpp
+            Source/Box2DTestBed/tests/motor_joint.cpp
+            Source/Box2DTestBed/tests/pinball.cpp
+            Source/Box2DTestBed/tests/platformer.cpp
+            Source/Box2DTestBed/tests/polygon_collision.cpp
+            Source/Box2DTestBed/tests/polygon_shapes.cpp
+            Source/Box2DTestBed/tests/prismatic_joint.cpp
+            Source/Box2DTestBed/tests/pulley_joint.cpp
+            Source/Box2DTestBed/tests/pyramid.cpp
+            Source/Box2DTestBed/tests/ray_cast.cpp
+            Source/Box2DTestBed/tests/restitution.cpp
+            Source/Box2DTestBed/tests/revolute_joint.cpp
+            Source/Box2DTestBed/tests/rope.cpp
+            Source/Box2DTestBed/tests/sensor.cpp
+            Source/Box2DTestBed/tests/shape_cast.cpp
+            Source/Box2DTestBed/tests/shape_editing.cpp
+            Source/Box2DTestBed/tests/skier.cpp
+            Source/Box2DTestBed/tests/slider_crank_1.cpp
+            Source/Box2DTestBed/tests/slider_crank_2.cpp
+            Source/Box2DTestBed/tests/theo_jansen.cpp
+            Source/Box2DTestBed/tests/tiles.cpp
+            Source/Box2DTestBed/tests/time_of_impact.cpp
+            Source/Box2DTestBed/tests/tumbler.cpp
+            Source/Box2DTestBed/tests/web.cpp
+            Source/Box2DTestBed/tests/wheel_joint.cpp
+            Source/Box2DTestBed/tests/wrecking_ball.cpp
+        )
+    endif()
 endif()
 
 list(APPEND GAME_HEADER
@@ -566,6 +578,22 @@ target_include_directories(${APP_NAME} PRIVATE ${GAME_INC_DIRS})
 # mark app resources
 ax_setup_app_config(${APP_NAME})
 if(APPLE)
+    if(AX_USE_SDL)
+        find_library(CARBON_LIBRARY Carbon)
+        find_library(COREHAPTICS_LIBRARY CoreHaptics)
+        find_library(FORCEFEEDBACK_LIBRARY ForceFeedback)
+        find_library(FOUNDATION_LIBRARY Foundation)
+        find_library(GAMECONTROLLER_LIBRARY GameController)
+        find_library(ICONV_LIBRARY iconv)
+
+        target_link_libraries(${APP_NAME} ${CARBON_LIBRARY}        )
+        target_link_libraries(${APP_NAME} ${COREHAPTICS_LIBRARY}   )
+        target_link_libraries(${APP_NAME} ${FORCEFEEDBACK_LIBRARY} )
+        target_link_libraries(${APP_NAME} ${FOUNDATION_LIBRARY}    )
+        target_link_libraries(${APP_NAME} ${GAMECONTROLLER_LIBRARY})
+        target_link_libraries(${APP_NAME} ${ICONV_LIBRARY}         )
+    endif()
+
     set_target_properties(${APP_NAME} PROPERTIES RESOURCE "${APP_UI_RES}")
     set_xcode_property(${APP_NAME} INSTALL_PATH "\$(LOCAL_APPS_DIR)")
     set_xcode_property(${APP_NAME} PRODUCT_BUNDLE_IDENTIFIER "org.axmol.cpp-tests")

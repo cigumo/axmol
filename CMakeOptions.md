@@ -11,6 +11,7 @@
     - Apple platform: Use openal-soft instead system deprecated: `OpenAL.framework`
     - Other platforms: Always use openal-soft even this option not enabled
   - AX_USE_LUAJIT: whether use luajit, default: `FALSE`, use plainlua
+  - AX_USE_SDL: whether use SDL instead of GLFW, default `FALSE`, uses GLFW.
 - AX_ENABLE_EXT_XXX for extensions
   - AX_ENABLE_EXT_GUI: the traditional GUI extension, default: `TRUE`
   - AX_ENABLE_EXT_ASSETMANAGER: the assetmanager extension, default: `TRUE`

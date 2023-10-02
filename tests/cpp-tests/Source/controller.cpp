@@ -49,7 +49,7 @@ public:
 #endif
 
 //        addTest("Node: Scene3D", [](){return new Scene3DTests(); });
-#if defined(AX_PLATFORM_PC) || (AX_TARGET_PLATFORM == AX_PLATFORM_ANDROID) || defined(__EMSCRIPTEN__)
+#if (!defined(AX_USE_SDL) && (defined(AX_PLATFORM_PC) || (AX_TARGET_PLATFORM == AX_PLATFORM_ANDROID) || defined(__EMSCRIPTEN__)))
         addTest("ImGui", []() { return new ImGuiTests(); });
 #endif
         addTest("Texture2D", []() { return new Texture2DTests(); });
@@ -58,9 +58,10 @@ public:
         addTest("Actions - Ease", []() { return new ActionsEaseTests(); });
         addTest("Actions - Progress", []() { return new ActionsProgressTests(); });
         addTest("Audio - NewAudioEngine", []() { return new AudioEngineTests(); });
-
+#if !defined(AX_USE_SDL)
         addTest("Box2D - Basic", []() { return new Box2DTests(); });
-#if defined(AX_PLATFORM_PC) || defined(__EMSCRIPTEN__)
+#endif
+#if (!defined(AX_USE_SDL) && (defined(AX_PLATFORM_PC) || defined(__EMSCRIPTEN__)))
         addTest("Box2D - TestBed", []() { return new Box2DTestBedTests(); });
 #endif
         addTest("Chipmunk2D - Basic", []() { return new ChipmunkTests(); });

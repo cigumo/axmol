@@ -71,16 +71,34 @@ elseif(APPLE)
             platform/mac/StdC-mac.h
             platform/mac/PlatformDefine-mac.h
             platform/mac/Application-mac.h
-            platform/GLViewImpl.h
             )
         set(_AX_PLATFORM_SPECIFIC_SRC
             ${_AX_PLATFORM_SPECIFIC_SRC}
             platform/mac/Application-mac.mm
             platform/mac/Common-mac.mm
             platform/mac/Device-mac.mm
-            platform/GLViewImpl.cpp
             )
-        set_source_files_properties(platform/GLViewImpl.cpp PROPERTIES LANGUAGE OBJCXX)
+        if(AX_USE_SDL)
+            set(_AX_PLATFORM_SPECIFIC_HEADER
+                ${_AX_PLATFORM_SPECIFIC_HEADER}
+                platform/GLViewImpl-SDL.h
+            )
+            set(_AX_PLATFORM_SPECIFIC_SRC
+                ${_AX_PLATFORM_SPECIFIC_SRC}
+                platform/GLViewImpl-SDL.cpp
+            )
+            set_source_files_properties(platform/GLViewImpl-SDL.cpp PROPERTIES LANGUAGE OBJCXX)
+        else()
+            set(_AX_PLATFORM_SPECIFIC_HEADER
+                ${_AX_PLATFORM_SPECIFIC_HEADER}
+                platform/GLViewImpl.h
+            )
+            set(_AX_PLATFORM_SPECIFIC_SRC
+                ${_AX_PLATFORM_SPECIFIC_SRC}
+                platform/GLViewImpl.cpp
+            )
+            set_source_files_properties(platform/GLViewImpl.cpp PROPERTIES LANGUAGE OBJCXX)
+        endif()
     elseif(IOS)
         set(_AX_PLATFORM_SPECIFIC_HEADER
             ${_AX_PLATFORM_SPECIFIC_HEADER}

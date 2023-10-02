@@ -215,7 +215,11 @@ THE SOFTWARE.
 #endif  // AX_TARGET_PLATFORM == AX_PLATFORM_WINRT
 
 #if (AX_TARGET_PLATFORM == AX_PLATFORM_MAC)
-#    include "platform/GLViewImpl.h"
+#    if defined(AX_USE_SDL)
+#        include "platform/GLViewImpl-SDL.h"
+#    else
+#        include "platform/GLViewImpl.h"
+#    endif
 #    include "platform/mac/Application-mac.h"
 #    include "platform/mac/StdC-mac.h"
 #endif  // AX_TARGET_PLATFORM == AX_PLATFORM_MAC
