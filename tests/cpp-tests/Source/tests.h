@@ -68,6 +68,7 @@
 #include "ClickAndMoveTest/ClickAndMoveTest.h"
 #include "ConfigurationTest/ConfigurationTest.h"
 #include "ConsoleTest/ConsoleTest.h"
+#include "ControllersTest/ControllersTest.h"
 #include "CurrentLanguageTest/CurrentLanguageTest.h"
 #include "DataVisitorTest/DataVisitorTest.h"
 #include "NetworkTest/NetworkTest.h"

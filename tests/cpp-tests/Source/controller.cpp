@@ -64,14 +64,15 @@ public:
 #if (!defined(AX_USE_SDL) && (defined(AX_PLATFORM_PC) || defined(__EMSCRIPTEN__)))
         addTest("Box2D - TestBed", []() { return new Box2DTestBedTests(); });
 #endif
+        addTest("Bugs", []() { return new BugsTests(); });
         addTest("Chipmunk2D - Basic", []() { return new ChipmunkTests(); });
 #if defined(AX_PLATFORM_PC) || defined(__EMSCRIPTEN__)
         addTest("Chipmunk2D - TestBed", []() { return new ChipmunkTestBedTests(); });
 #endif
-        addTest("Bugs", []() { return new BugsTests(); });
         addTest("Click and Move", []() { return new ClickAndMoveTest(); });
         addTest("Configuration", []() { return new ConfigurationTests(); });
         addTest("Console", []() { return new ConsoleTests(); });
+        addTest("Controllers", []() { return new ControllersTests(); });
 #if !defined(__EMSCRIPTEN__)
         addTest("Curl", []() { return new CurlTests(); });
 #endif

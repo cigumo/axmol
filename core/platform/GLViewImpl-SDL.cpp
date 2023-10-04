@@ -60,6 +60,8 @@ THE SOFTWARE.
 #    include "renderer/backend/opengl/OpenGLState.h"
 #endif  // #if (AX_TARGET_PLATFORM == AX_PLATFORM_MAC)
 
+#include "base/ControllerImpl-SDL.h"
+
 NS_AX_BEGIN
 
 const std::string GLViewImpl::EVENT_WINDOW_RESIZED   = "glview_window_resized";
@@ -570,13 +572,15 @@ void GLViewImpl::pollEvents()
             case SDL_KEYUP:             onKeyboardEvent(sdlEvent.key, false); break;
             case SDL_TEXTINPUT:         onTextInputEvent(sdlEvent); break;
 
-            // TODO
-            //case SDL_CONTROLLERAXISMOTION:      controllerAxisEventArray.push_back(sdlEvent.caxis); break;
-            //case SDL_CONTROLLERBUTTONDOWN:      controllerButtonEventArray.push_back(sdlEvent.cbutton); break;
-            //case SDL_CONTROLLERBUTTONUP:        controllerButtonEventArray.push_back(sdlEvent.cbutton); break;
-            //case SDL_CONTROLLERDEVICEADDED:     controllerDeviceEventArray.push_back(sdlEvent.cdevice); break;
-            //case SDL_CONTROLLERDEVICEREMOVED:   controllerDeviceEventArray.push_back(sdlEvent.cdevice); break;
-            
+            case SDL_CONTROLLERAXISMOTION:
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERBUTTONUP:
+            case SDL_CONTROLLERDEVICEADDED:
+            case SDL_CONTROLLERDEVICEREMOVED:
+            case SDL_CONTROLLERDEVICEREMAPPED:
+                ax::ControllerImpl::getInstance()->handleEvent(&sdlEvent);
+                break;
+                
             case SDL_RENDER_TARGETS_RESET:      log("event SDL_RENDER_TARGETS_RESET");break;
             case SDL_RENDER_DEVICE_RESET:       log("event SDL_RENDER_DEVICE_RESET"); break;
         }

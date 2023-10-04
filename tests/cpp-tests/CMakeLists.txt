@@ -129,6 +129,7 @@ list(APPEND GAME_HEADER
      Source/testBasic.h
      Source/ZwoptexTest/ZwoptexTest.h
      Source/CurlTest/CurlTest.h
+     Source/ControllersTest/ControllersTest.h
      Source/UnitTest/UnitTest.h
 #    Source/UnitTest/RefPtrTest.h
      Source/ConfigurationTest/ConfigurationTest.h
@@ -277,6 +278,7 @@ list(APPEND GAME_SOURCE
      Source/ConfigurationTest/ConfigurationTest.cpp
      Source/ConsoleTest/ConsoleTest.cpp
      Source/CurlTest/CurlTest.cpp
+     Source/ControllersTest/ControllersTest.cpp
      Source/CurrentLanguageTest/CurrentLanguageTest.cpp
      Source/DataVisitorTest/DataVisitorTest.cpp
      Source/NetworkTest/NetworkTest.cpp

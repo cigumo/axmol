@@ -1,8 +1,18 @@
+set(_AX_BASE_SPECIFIC_HEADER)
 
-if(APPLE)
+if(AX_USE_SDL)
+    set(_AX_BASE_SPECIFIC_SRC
+        base/ControllerImpl-SDL.cpp
+        base/Controller-SDL.cpp
+    )
+    set(_AX_BASE_SPECIFIC_HEADER
+        base/ControllerImpl-SDL.h
+    )
+
+elseif(APPLE)
     set(_AX_BASE_SPECIFIC_SRC
         base/Controller-apple.mm
-        )
+    )
 
 elseif(ANDROID)
     set(_AX_BASE_SPECIFIC_SRC
@@ -80,6 +90,7 @@ set(_AX_BASE_HEADER
     base/Scheduler.h
     base/EventType.h
     base/IMEDispatcher.h
+    ${_AX_BASE_SPECIFIC_HEADER}
     )
 
 set(_AX_BASE_SRC
